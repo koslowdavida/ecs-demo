@@ -11,6 +11,11 @@ const INTERNAL_ALB='service.internal'
 //const INTERNAL_ALB = '127.0.0.1:3000';
 
 const app = express();
+
+app.get('/',(req, res) => {
+    fetchLandingPage(req, res);
+});
+
 app.get('/health', (req, res) => {
     res.status(200).send('Ok');
 });
@@ -20,7 +25,19 @@ app.get('/customers/:customerId', (req, res) => {
     fetchCustomer(req,res,customerId);
 });
 
-async function fetchCustomer (req, res,customerId) {
+async function fetchLandingPage(req, res) {
+    let response;
+    try {
+	response = await fetch('https://ecs-demo-content-bucket.s3.amazonaws.com/homepage.html') ;
+	let data = await response.text();
+	return res.send(data);
+    } catch (err) {
+        console.log('HTTP error', err);
+	return res.status(500).send();
+    }
+}
+
+async function fetchCustomer (req, res, customerId) {
     let response;
     try {
         response = await fetch(`http://${INTERNAL_ALB}/customers/${customerId}`)  ;

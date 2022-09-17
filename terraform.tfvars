@@ -1,5 +1,5 @@
 ## Application configurations
-account      = 000000
+account      = 684235178456
 region       = "us-east-1"
 app_name     = "ecs-demo"
 env          = "dev"

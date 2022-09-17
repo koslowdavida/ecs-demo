@@ -54,8 +54,8 @@ resource "aws_ecs_service" "private_service" {
   desired_count   = each.value.desired_count
 
   network_configuration {
-    subnets          = each.value.is_public ==true ? var.public_subnets : var.private_subnets
-    assign_public_ip = each.value.is_public ==true ? true : false
+    subnets          = each.value.is_public == true ? var.public_subnets : var.private_subnets
+    assign_public_ip = each.value.is_public == true ? true : false
     security_groups  = [
       each.value.is_public == true ? aws_security_group.webapp_security_group.id : aws_security_group.service_security_group.id
     ]
